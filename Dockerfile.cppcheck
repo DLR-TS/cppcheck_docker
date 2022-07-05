@@ -1,0 +1,7 @@
+FROM alpine:3.16 AS cppcheck
+
+RUN adduser --disabled-password cppcheck
+RUN apk add --no-cache cppcheck
+USER cppcheck
+WORKDIR /home/cppcheck
+CMD cppcheck --force --error-exitcode=1 . 
