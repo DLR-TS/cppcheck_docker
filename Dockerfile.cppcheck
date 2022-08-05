@@ -4,4 +4,4 @@ RUN adduser --disabled-password cppcheck
 RUN apk add --no-cache cppcheck
 USER cppcheck
 WORKDIR /home/cppcheck
-CMD cppcheck --force --error-exitcode=1 . 
+CMD cppcheck -ibuild -iexternal -icmake -iinstall --force --error-exitcode=1 . 
