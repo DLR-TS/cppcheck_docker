@@ -8,7 +8,7 @@ TAG="${PROJECT}:${VERSION}"
 
 DOCKER_FILE= Dockerfile.cppcheck
 
-ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+ROOT_DIR:=$(shell dirname "$(realpath $(firstword $(MAKEFILE_LIST)))")
 MAKEFLAGS += --no-print-directory
 .EXPORT_ALL_VARIABLES:
 DOCKER_BUILDKIT?=1
