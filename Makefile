@@ -38,8 +38,8 @@ cppcheck: ## cppcheck provided source directory call with: make cppcheck CPP_PRO
 	@[ -n "$$(docker images -q ${TAG} 2> /dev/null)" ] && \
           echo "" || \
           make build
-	@docker run -v ${CPP_PROJECT_DIRECTORY}:/home/${PROJECT}/$$(basename ${CPP_PROJECT_DIRECTORY}) "${TAG}"
+	docker run -v "${CPP_PROJECT_DIRECTORY}:/home/${PROJECT}/$$(basename ${CPP_PROJECT_DIRECTORY})" "${TAG}"
 
 .PHONY: cppcheck_demo
 cppcheck_demo: ## show a demo with provided hello_world project
-	make cppcheck CPP_PROJECT_DIRECTORY=$$(realpath ./hello_world) 
+	make cppcheck CPP_PROJECT_DIRECTORY="$$(realpath ./hello_world)"
