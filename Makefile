@@ -31,13 +31,14 @@ clean:
 
 .PHONY: build
 build: clean ## build cppcheck docker image
-	docker build -t "${TAG}" -f "${DOCKER_FILE}" .
+	docker build --network host -t "${TAG}" -f "${DOCKER_FILE}" .
+
+.PHONY: build_fast
+build_fast: ## Build docker context only if it does not already exist
+	@[ ! -n "$$(docker images -q ${TAG})" ] && make build || true
 
 .PHONY: cppcheck 
-cppcheck: ## cppcheck provided source directory call with: make cppcheck CPP_PROJECT_DIRECTORY=/absolute/path/to/source
-	@[ -n "$$(docker images -q ${TAG} 2> /dev/null)" ] && \
-          echo "" || \
-          make build
+cppcheck: build_fast ## cppcheck provided source directory call with: make cppcheck CPP_PROJECT_DIRECTORY=/absolute/path/to/source
 	docker run -v "${CPP_PROJECT_DIRECTORY}:/home/${PROJECT}/$$(basename ${CPP_PROJECT_DIRECTORY})" "${TAG}"
 
 .PHONY: cppcheck_demo
