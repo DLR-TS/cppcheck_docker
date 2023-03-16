@@ -1,13 +1,10 @@
 
-ifndef cppcheck_docker
+ifeq ($(filter cppcheck_docker.mk, $(notdir $(MAKEFILE_LIST))), cppcheck_docker.mk)
 
-cppcheck_docker:=""
+CPPCHECK_DOCKER_MAKEFILE_PATH:=$(strip $(shell realpath "$(shell dirname "$(lastword $(MAKEFILE_LIST))")"))
 
 .PHONY: cppcheck 
-cppcheck: ## Print out cppcheck static analysis report for source code.
-	find . -name "**cppcheck_report.log" -exec rm -rf {} \;
-	cd cppcheck_docker && \
-    make cppcheck CPP_PROJECT_DIRECTORY=$$(realpath ${ROOT_DIR}/${PROJECT}) | \
-	tee ${ROOT_DIR}/${PROJECT}/${PROJECT}_cppcheck_report.log; exit $$PIPESTATUS
-
+cppcheck: ## Print out cppcheck static analysis report for source code call with: make cppcheck CPP_PROJECT_DIRECTORY=/absolute/path/to/source
+	cd "${CPPCHECK_DOCKER_MAKEFILE_PATH}" && \
+    make _cppcheck
 endif

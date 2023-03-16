@@ -3,5 +3,5 @@ FROM alpine:3.16 AS cppcheck
 RUN adduser --disabled-password cppcheck
 RUN apk add --no-cache cppcheck
 USER cppcheck
-WORKDIR /home/cppcheck
+WORKDIR /tmp/cpp_source_directory
 CMD cppcheck -ibuild -iexternal -icmake -iinstall --force --error-exitcode=1 . 
